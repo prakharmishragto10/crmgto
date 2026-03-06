@@ -1,6 +1,12 @@
 /*** Provides a standardized structure for successful and failed HTTP responses
  * to ensure consistency across the application. */
-const sendSuccess = (res, data, message = "Success", statusCode = 200) => {
+
+export const sendSuccess = (
+  res,
+  data,
+  message = "Success",
+  statusCode = 200,
+) => {
   return res.status(statusCode).json({
     success: true,
     message,
