@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import authRoutes from "./src/modules/auth/auth.routes.js";
+import staffRoutes from "./src/modules/staff/staff.routes.js";
 const app = express();
 
 // Global Middlewares
@@ -17,4 +18,7 @@ app.get("/", (req, res) => {
 });
 //auth routes
 app.use("/api/auth", authRoutes);
+
+//staff routes
+app.use("/api/staff", staffRoutes);
 export default app;
