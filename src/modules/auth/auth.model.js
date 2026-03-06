@@ -1,6 +1,6 @@
 import pool from "../../utils/db.js";
 
-//find user by email id
+// Find user by email
 export const findUserByEmail = async (email) => {
   const result = await pool.query(
     `SELECT u.*, r.name as role_name, b.name as branch_name 
@@ -11,4 +11,41 @@ export const findUserByEmail = async (email) => {
     [email],
   );
   return result.rows[0];
+};
+
+// Find user by id
+export const findUserById = async (id) => {
+  const result = await pool.query(
+    `SELECT u.*, r.name as role_name, b.name as branch_name 
+     FROM users u
+     LEFT JOIN roles r ON u.role_id = r.id
+     LEFT JOIN branches b ON u.branch_id = b.id
+     WHERE u.id = $1 AND u.is_active = true`,
+    [id],
+  );
+  return result.rows[0];
+};
+
+// Create user
+export const createUser = async ({
+  name,
+  email,
+  password,
+  role_id,
+  branch_id,
+  created_by,
+}) => {
+  const result = await pool.query(
+    `INSERT INTO users (name, email, password, role_id, branch_id, created_by)
+     VALUES ($1, $2, $3, $4, $5, $6)
+     RETURNING id, name, email, role_id, branch_id, created_at`,
+    [name, email, password, role_id, branch_id, created_by],
+  );
+  return result.rows[0];
+};
+
+// Get all roles
+export const getAllRoles = async () => {
+  const result = await pool.query(`SELECT * FROM roles`);
+  return result.rows;
 };
