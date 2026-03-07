@@ -16,7 +16,7 @@ const router = express.Router();
 // ALL ROUTES PROTECTED
 router.use(protect);
 
-// STAFF MANAGEMENT — super_admin only
+// STAFF MANAGEMENT super_admin only
 router.post("/", restrictTo("super_admin"), createStaff);
 router.get("/", restrictTo("super_admin"), getStaff);
 router.patch("/:id/toggle-status", restrictTo("super_admin"), toggleStatus);
